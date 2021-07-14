@@ -34,7 +34,7 @@ def download():
         print('Кліп завантажено розмір')
         
     except Exception:
-        print('Щось пішло не так......')
+        lb3.config(text = "Збій завантаження файла", fg='red', font=("Times New Roman", 16))
         
 def starter():
 	Thread(target=download,args=()).start()
