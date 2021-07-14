@@ -27,9 +27,7 @@ def download():
         video = youtube.streams.filter(res="720p").first()
         print('Кліп:', youtube.title, 'розміром', youtube.length, 'буде завантажено в /home/grey/Відео/clips')
         lb3.config(text = "Завантаження:   " + youtube.title)
-        # ~ window.update()
         video.download(x2)
-        #window.update()
         lb3.config(text = "Відео: " + youtube.title + " --- успішно завантажено в " + x2 , fg='green')
         print('Кліп завантажено')
         
@@ -45,7 +43,6 @@ def starter():
 window = Tk()
 window.title("Програма загрузки роликів з YouTube v1.0")
 window.configure(background='bisque')
-# ~ window.geometry("700x200")
 window.resizable(False, False)
 lb1 = Label(window, text="Вставте скопійоване посилання на відео з Youtube:", font=("Times New Roman", 14), bg='bisque')
 lb2 = Label(window, text="Виберіть директорію для збереження відео:", font=("Times New Roman", 14), bg='bisque')
@@ -66,7 +63,5 @@ txt1 = Entry(window, width=70, bd=2)
 txt2 = Entry(window, width=70, bd=2)
 txt1.grid(column=0, row=1, padx=(10, 10))
 txt2.grid(column=0, row=3, padx=(10, 10), pady=(0, 10))
-
-
 
 window.mainloop()
