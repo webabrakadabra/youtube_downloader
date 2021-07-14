@@ -3,8 +3,7 @@
 from tkinter import filedialog
 from tkinter import *
 import pyautogui
-import pytube
-import time
+from pytube import YouTube
 from threading import Thread
 
 global x
@@ -23,13 +22,16 @@ def download():
     x = txt1.get()
     x2 = txt2.get()
     try:
-        youtube = pytube.YouTube(x)
+        youtube = YouTube(x)
         video = youtube.streams.filter(res="720p").first()
+        # ~ size_video = round(video.filesize/10**6, 1)
         print('Кліп:', youtube.title, 'розміром', youtube.length, 'буде завантажено в /home/grey/Відео/clips')
         lb3.config(text = "Завантаження:   " + youtube.title)
         video.download(x2)
         lb3.config(text = "Відео: " + youtube.title + " --- успішно завантажено в " + x2 , fg='green')
-        print('Кліп завантажено')
+        lb4.config(text = "Розмір скачаного відеофайла становить: " + str(round(video.filesize/10**6, 1)) + "MB")
+        
+        print('Кліп завантажено розмір')
         
     except Exception:
         print('Щось пішло не так......')
@@ -47,10 +49,12 @@ window.resizable(False, False)
 lb1 = Label(window, text="Вставте скопійоване посилання на відео з Youtube:", font=("Times New Roman", 14), bg='bisque')
 lb2 = Label(window, text="Виберіть директорію для збереження відео:", font=("Times New Roman", 14), bg='bisque')
 lb3 = Label(window, font=("Times New Roman", 10), bg='bisque', wraplength=500)
+lb4 = Label(window, font=("Times New Roman", 10), bg='bisque')
 
 lb1.grid(column=0, row=0, padx=(10, 0))
 lb2.grid(column=0, row=2, padx=(10, 0))
 lb3.grid(column=0, row=5, padx=(10, 0), pady=(10, 10))
+lb4.grid(column=0, row=6, padx=(10, 0), pady=(10, 10))
 
 btn1 = Button(window, text="Завантажити", width=40, command=starter)
 btn2 = Button(window, text="Вставити", command=insert)
