@@ -6,6 +6,9 @@ import pyautogui
 from pytube import YouTube
 from threading import Thread
 
+from pytube.exceptions import VideoUnavailable, RegexMatchError, MembersOnly, RecordingUnavailable, VideoPrivate, \
+    LiveStreamError
+
 
 def insert():
     pyautogui.hotkey('ctrl', 'v')
@@ -25,15 +28,18 @@ def download():
         youtube = YouTube(url_youtube)
         video = youtube.streams.filter(res="720p").first()
         print('Кліп:', youtube.title, 'розміром', youtube.length, 'буде завантажено в /home/grey/Відео/clips')
-        lb3.config(text="Завантаження:   " + youtube.title)
+        lb3.config(text="Завантаження:   " + youtube.title, fg='black', font=("Times New Roman", 16))
         video.download(dir_download)
         lb3.config(text="Відео: " + youtube.title + " --- успішно завантажено в " + dir_download, fg='green')
         lb4.config(text="Розмір скачаного відеофайла становить: " + str(round(video.filesize/10**6, 1)) + "MB")
         
         print('Кліп завантажено розмір')
         
-    except Exception:
-        lb3.config(text="Збій завантаження файла", fg='red', font=("Times New Roman", 16))
+    except (VideoUnavailable, MembersOnly, RecordingUnavailable, VideoPrivate, LiveStreamError):
+        lb3.config(text="Відео недоступне", fg='red', font=("Times New Roman", 16))
+    except RegexMatchError:
+        lb3.config(text="Помилка в посиланні на відео, перевірьте будь ласка правильність посилання", fg='red',
+                   font=("Times New Roman", 16))
 
 
 def starter():
