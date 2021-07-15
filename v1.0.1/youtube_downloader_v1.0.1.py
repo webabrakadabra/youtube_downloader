@@ -6,9 +6,6 @@ import pyautogui
 from pytube import YouTube
 from threading import Thread
 
-global x
-global x2
-
 
 def insert():
     pyautogui.hotkey('ctrl', 'v')
