@@ -47,7 +47,7 @@ def starter():
 
 
 window = Tk()
-window.title("Програма загрузки роликів з YouTube v1.0")
+window.title("Програма загрузки роликів з YouTube v1.0.1")
 window.configure(background='bisque')
 window.resizable(False, False)
 lb1 = Label(window, text="Вставте скопійоване посилання на відео з Youtube:", font=("Times New Roman", 14), bg='bisque')
