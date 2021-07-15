@@ -26,15 +26,15 @@ def download():
         video = youtube.streams.filter(res="720p").first()
         # ~ size_video = round(video.filesize/10**6, 1)
         print('Кліп:', youtube.title, 'розміром', youtube.length, 'буде завантажено в /home/grey/Відео/clips')
-        lb3.config(text = "Завантаження:   " + youtube.title)
+        lb3.config(text = "Завантаження:   " + youtube.title, fg="black", font=("Times New Roman", 10), bg='bisque', wraplength=500)
         video.download(x2)
-        lb3.config(text = "Відео: " + youtube.title + " --- успішно завантажено в " + x2 , fg='green')
+        lb3.config(text = "Відео: " + youtube.title + " --- успішно завантажено в " + x2 , fg='green', font=("Times New Roman", 10), bg='bisque', wraplength=500)
         lb4.config(text = "Розмір скачаного відеофайла становить: " + str(round(video.filesize/10**6, 1)) + "MB")
         
         print('Кліп завантажено розмір')
         
     except Exception:
-        lb3.config(text = "Збій завантаження файла", fg='red', font=("Times New Roman", 16))
+        lb3.config(text = "Збій завантаження файла", fg='red', font=("Times New Roman", 16), bg='bisque', wraplength=500)
         
 def starter():
 	Thread(target=download,args=()).start()
@@ -43,7 +43,7 @@ def starter():
 
 
 window = Tk()
-window.title("Програма загрузки роликів з YouTube v1.0")
+window.title("Програма загрузки роликів з YouTube v1.0.1")
 window.configure(background='bisque')
 window.resizable(False, False)
 lb1 = Label(window, text="Вставте скопійоване посилання на відео з Youtube:", font=("Times New Roman", 14), bg='bisque')
