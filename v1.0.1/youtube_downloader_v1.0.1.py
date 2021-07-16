@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-
+import subprocess
 from tkinter import filedialog
 from tkinter import *
 import pyautogui
@@ -8,6 +8,8 @@ from threading import Thread
 
 from pytube.exceptions import VideoUnavailable, RegexMatchError, MembersOnly, RecordingUnavailable, VideoPrivate, \
     LiveStreamError
+
+downloaded = ''
 
 
 def insert():
@@ -22,17 +24,19 @@ def browse_button():
 
 
 def download():
+    global downloaded
     url_youtube = txt1.get()
     dir_download = txt2.get()
+
     try:
         youtube = YouTube(url_youtube)
         video = youtube.streams.filter(res="720p").first()
         print('Кліп:', youtube.title, 'розміром', youtube.length, 'буде завантажено в /home/grey/Відео/clips')
         lb3.config(text="Завантаження:   " + youtube.title, fg='black', font=("Times New Roman", 16))
-        video.download(dir_download)
+        downloaded = video.download(dir_download)
         lb3.config(text="Відео: " + youtube.title + " --- успішно завантажено в " + dir_download, fg='green')
         lb4.config(text="Розмір скачаного відеофайла становить: " + str(round(video.filesize/10**6, 1)) + "MB")
-        
+        btn4.grid(column=0, row=7, padx=(10, 10), pady=(0, 10))
         print('Кліп завантажено розмір')
         
     except (VideoUnavailable, MembersOnly, RecordingUnavailable, VideoPrivate, LiveStreamError):
@@ -44,6 +48,10 @@ def download():
 
 def starter():
     Thread(target=download, args=()).start()
+
+
+def open_file():
+    subprocess.Popen(['xdg-open', downloaded])
 
 
 window = Tk()
@@ -63,6 +71,7 @@ lb4.grid(column=0, row=6, padx=(10, 0), pady=(10, 10))
 btn1 = Button(window, text="Завантажити", width=40, command=starter)
 btn2 = Button(window, text="Вставити", command=insert)
 btn3 = Button(window, text="Вибрати", command=browse_button)
+btn4 = Button(window, text="Відкрити скачаний файл", command=open_file)
 btn1.grid(column=0, row=4, padx=(10, 10))
 btn2.grid(column=2, row=1, padx=(10, 10))
 btn3.grid(column=2, row=3, padx=(10, 10))
