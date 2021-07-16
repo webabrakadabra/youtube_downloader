@@ -37,6 +37,7 @@ def download():
         lb3.config(text="Відео: " + youtube.title + " --- успішно завантажено в " + dir_download, fg='green')
         lb4.config(text="Розмір скачаного відеофайла становить: " + str(round(video.filesize/10**6, 1)) + "MB")
         btn4.grid(column=0, row=7, padx=(10, 10), pady=(0, 10))
+        btn5.grid(column=0, row=8, padx=(10, 10), pady=(0, 10))
         print('Кліп завантажено розмір')
         
     except (VideoUnavailable, MembersOnly, RecordingUnavailable, VideoPrivate, LiveStreamError):
@@ -52,6 +53,10 @@ def starter():
 
 def open_file():
     subprocess.Popen(['xdg-open', downloaded])
+
+
+def open_dir():
+    subprocess.Popen(['xdg-open', txt2.get()])
 
 
 window = Tk()
@@ -72,6 +77,7 @@ btn1 = Button(window, text="Завантажити", width=40, command=starter)
 btn2 = Button(window, text="Вставити", command=insert)
 btn3 = Button(window, text="Вибрати", command=browse_button)
 btn4 = Button(window, text="Відкрити скачаний файл", command=open_file)
+btn5 = Button(window, text="Відкрити теку", command=open_dir)
 btn1.grid(column=0, row=4, padx=(10, 10))
 btn2.grid(column=2, row=1, padx=(10, 10))
 btn3.grid(column=2, row=3, padx=(10, 10))
