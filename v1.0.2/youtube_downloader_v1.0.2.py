@@ -83,18 +83,6 @@ def os_system():
         return "Error type os"
 
 
-'''
-def os_import_module():
-    if platform.system().lower()[:3] == 'win':
-        from os import startfile, listdir
-    elif platform.system().lower()[:3] == 'lin':
-        import subprocess
-    else:
-        pass
-'''
-
-
-
 window = Tk()
 window.title("Програма загрузки роликів з YouTube v1.0.2")
 window.configure(background='bisque')
