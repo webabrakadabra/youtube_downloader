@@ -57,7 +57,7 @@ def open_file():
         import subprocess
         subprocess.Popen(['xdg-open', downloaded])
     elif os_system() == "windows":
-        from os import startfile, listdir
+        from os import startfile
         startfile(downloaded)
     else:
         pass
@@ -68,8 +68,8 @@ def open_dir():
         import subprocess
         subprocess.Popen(['xdg-open', txt2.get()])
     elif os_system() == "windows":
-        from os import startfile, listdir
-        listdir(txt2.get())
+        from os import startfile
+        startfile(txt2.get())
     else:
         pass
 
