@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-import subprocess
 from tkinter import filedialog
 from tkinter import *
 import pyautogui
 from pytube import YouTube
 from threading import Thread
+import platform
 
 from pytube.exceptions import VideoUnavailable, RegexMatchError, MembersOnly, RecordingUnavailable, VideoPrivate, \
     LiveStreamError
@@ -32,6 +32,7 @@ def download():
         youtube = YouTube(url_youtube)
         video = youtube.streams.filter(res="720p").first()
         print('Кліп:', youtube.title, 'розміром', youtube.length, 'буде завантажено в /home/grey/Відео/clips')
+        lb4.config(text="Розмір відеофайла становить: " + str(round(video.filesize / 10 ** 6, 1)) + "MB")
         lb3.config(text="Завантаження:   " + youtube.title, fg='black', font=("Times New Roman", 16))
         downloaded = video.download(dir_download)
         lb3.config(text="Відео: " + youtube.title + " --- успішно завантажено в " + dir_download, fg='green')
@@ -52,11 +53,46 @@ def starter():
 
 
 def open_file():
-    subprocess.Popen(['xdg-open', downloaded])
+    if os_system() == "linux":
+        import subprocess
+        subprocess.Popen(['xdg-open', downloaded])
+    elif os_system() == "windows":
+        from os import startfile, listdir
+        startfile(downloaded)
+    else:
+        pass
 
 
 def open_dir():
-    subprocess.Popen(['xdg-open', txt2.get()])
+    if os_system() == "linux":
+        import subprocess
+        subprocess.Popen(['xdg-open', txt2.get()])
+    elif os_system() == "windows":
+        from os import startfile, listdir
+        listdir(txt2.get())
+    else:
+        pass
+
+
+def os_system():
+    if platform.system().lower()[:3] == 'win':
+        return "windows"
+    elif platform.system().lower()[:3] == 'lin':
+        return "linux"
+    else:
+        return "Error type os"
+
+
+'''
+def os_import_module():
+    if platform.system().lower()[:3] == 'win':
+        from os import startfile, listdir
+    elif platform.system().lower()[:3] == 'lin':
+        import subprocess
+    else:
+        pass
+'''
+
 
 
 window = Tk()
