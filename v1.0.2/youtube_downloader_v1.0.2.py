@@ -112,3 +112,9 @@ txt1.grid(column=0, row=1, padx=(10, 10))
 txt2.grid(column=0, row=3, padx=(10, 10), pady=(0, 10))
 
 window.mainloop()
+
+
+
+
+
+
