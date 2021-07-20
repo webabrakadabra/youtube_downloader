@@ -2,7 +2,7 @@
 from tkinter import filedialog
 from tkinter import *
 import pyautogui
-from pytube import YouTube
+from pytube import YouTube, Stream
 from threading import Thread
 import platform
 
@@ -11,6 +11,15 @@ from pytube.exceptions import VideoUnavailable, RegexMatchError, MembersOnly, Re
 
 downloaded = ''
 
+def on_progresss(
+    stream: Stream, chunk: bytes, bytes_remaining: int
+) -> None:  # pylint: disable=W0613
+    filesize = stream.filesize
+    bytes_received = filesize - bytes_remaining
+    percent = round(100.0 * bytes_received / float(filesize), 1)
+   # display_progress_bar(bytes_received, filesize)
+    lb5.config(text="Прогрес завантаження: " + str(percent) + "%")
+    #print(percent)
 
 def insert():
     pyautogui.hotkey('ctrl', 'v')
@@ -29,7 +38,7 @@ def download():
     dir_download = txt2.get()
 
     try:
-        youtube = YouTube(url_youtube)
+        youtube = YouTube(url_youtube, on_progress_callback=on_progresss)
         video = youtube.streams.filter(res="720p").first()
         print('Кліп:', youtube.title, 'розміром', youtube.length, 'буде завантажено в /home/grey/Відео/clips')
         lb4.config(text="Розмір відеофайла становить: " + str(round(video.filesize / 10 ** 6, 1)) + "MB")
@@ -91,11 +100,13 @@ lb1 = Label(window, text="Вставте скопійоване посиланн
 lb2 = Label(window, text="Виберіть директорію для збереження відео:", font=("Times New Roman", 14), bg='bisque')
 lb3 = Label(window, font=("Times New Roman", 10), bg='bisque', wraplength=500)
 lb4 = Label(window, font=("Times New Roman", 10), bg='bisque')
+lb5 = Label(window, font=("Times New Roman", 10), bg='bisque')
 
 lb1.grid(column=0, row=0, padx=(10, 0))
 lb2.grid(column=0, row=2, padx=(10, 0))
 lb3.grid(column=0, row=5, padx=(10, 0), pady=(10, 10))
 lb4.grid(column=0, row=6, padx=(10, 0), pady=(10, 10))
+lb5.grid(column=0, row=9, padx=(10, 0), pady=(10, 10))
 
 btn1 = Button(window, text="Завантажити", width=40, command=starter)
 btn2 = Button(window, text="Вставити", command=insert)
